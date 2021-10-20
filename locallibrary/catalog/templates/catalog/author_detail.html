@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<p></p>
+  <h1>Author: {{ author.first_name }},{{ author.last_name }}</h1>
+  <p>{{ author.date_of_birth }}</p>
+  <p style="margin-left:2.5em">About the Author:</p>
+  <p style="margin-left:2.5em"><strong>First Name:</strong> {{ author.first_name }}</p>
+  <p style="margin-left:2.5em"><strong>Last Name:</strong> {{ author.last_name }}</p>
+  <p style="margin-left:2.5em"><strong>Date of Birth:</strong> {{ author.date_of_birth }}</p>
+  <p style="margin-left:2.5em"><strong>Died Date:</strong> {{ author.date_of_death }}</p>
+   <p></p>
+   <p></p>
+   <p></p>
+  <p style="margin-left:2.5em">Books:</p>
+  {% for book in book_list %}
+  <li>
+    <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> 
+  </li>
+{% endfor %}
+
+{% for copy in book.bookinstance_set.all %}
+      <hr>
+      <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+        {{ copy.get_status_display }}
+      </p>
+      {% if copy.status != 'a' %}
+        <p><strong>Due to be returned:</strong> {{ copy.due_back }}</p>
+      {% endif %}
+      <p><strong>Imprint:</strong> {{ copy.imprint }}</p>
+      <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
+    {% endfor %}
+  </div>
+  <p style="margin-left:2.5em">{{ book.summary }}</p>
+
+  </div>
+
+
+{% endblock %}
